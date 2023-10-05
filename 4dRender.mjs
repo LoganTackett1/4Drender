@@ -48,6 +48,11 @@ FOUR.create4DCube = function () {
 
     cube.center = new Vector(0,0,0,0);
 
+    cube.twoDMap = [[0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0]];
+
     return cube;
 }
 
@@ -99,3 +104,28 @@ FOUR.projectToTwo = function (point,zc,zv) {
     return new Vector(x,y);
 }
 
+FOUR.cubeToTwo = function (cube,wc,wv,zc,zv) {
+    for (let i = 0; i < cube.points.length; i++) {
+        const two = this.projectToTwo(this.projectToThree(cube.points[i],wc,wv),zc,zv);
+        cube.twoDMap[i][0] = two.x0;
+        cube.twoDMap[i][1] = two.x1;
+    }
+}
+
+function drawLine(ctx, x1, y1, x2,y2, stroke = 'black', width = 3) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = width;
+    ctx.stroke();
+}
+
+FOUR.drawCube = function (ctx, cube) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let link of cube.drawLines) {
+        const p1 = cube.points[link[0]];
+        const p2 = cube.points[link[1]];
+        drawLine(ctx,p1.x0,p1.x1,p2.x0,p2.x1);
+    }
+}
