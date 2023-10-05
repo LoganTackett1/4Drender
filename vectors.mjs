@@ -14,6 +14,15 @@ class Vector {
             }
         }
     }
+    subtract (vector) {
+        if (vector.dim !== this.dim) {
+            throw new Error("Cannot sum vectors of different dimension.");
+        } else {
+            for (let i = 0; i < this.dim; i++) {
+                this[`x${i}`] -= vector[`x${i}`];
+            }
+        }
+    }
     scale (constant) {
         for (let i = 0; i < this.dim; i++) {
                 this[`x${i}`] *= constant;
@@ -55,16 +64,6 @@ class Vector {
                 result += (this[`x${i}`]-vector[`x${i}`])**2;
             }
             return result;
-        }
-    }
-    mutateR2 () {
-        const x = 2*Math.random()-1;
-        const y = 2*Math.random()-1;
-        if (x**2+y**2<=1) {
-            this.x0 = x;
-            this.x1 = y;
-        } else {
-            return this.mutateR2();
         }
     }
 }
