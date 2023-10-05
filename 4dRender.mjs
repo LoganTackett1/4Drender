@@ -13,7 +13,7 @@ FOUR.create4DCube = function () {
         for (let op2 of options) {
             for (let op3 of options) {
                 for (let op4 of options) {
-                    points.push(new Vector(op1,op2,op3,op4));
+                    cube.points.push(new Vector(op1,op2,op3,op4));
                 }
             }
         }
@@ -112,7 +112,7 @@ FOUR.cubeToTwo = function (cube,wc,wv,zc,zv) {
     }
 }
 
-function drawLine(ctx, x1, y1, x2,y2, stroke = 'black', width = 3) {
+FOUR.drawLine = function (ctx, x1, y1, x2,y2, stroke = 'black', width = 3) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
@@ -121,11 +121,13 @@ function drawLine(ctx, x1, y1, x2,y2, stroke = 'black', width = 3) {
     ctx.stroke();
 }
 
-FOUR.drawCube = function (ctx, cube) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+FOUR.drawCube = function (ctx,canvas,cube) {
+    //ctx.clearRect(0,0,canvas.width,canvas.height);
     for (let link of cube.drawLines) {
-        const p1 = cube.points[link[0]];
-        const p2 = cube.points[link[1]];
-        drawLine(ctx,p1.x0,p1.x1,p2.x0,p2.x1);
+        const p1 = cube.twoDMap[link[0]];
+        const p2 = cube.twoDMap[link[1]];
+        this.drawLine(ctx,p1.x0*50+250,p1.x1*50+250,p2.x0*50+250,p2.x1*50+250);
     }
 }
+
+export default FOUR;
