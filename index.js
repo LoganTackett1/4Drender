@@ -3,8 +3,8 @@ import Vector from "./vectors.mjs";
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 700;
+canvas.height = 700;
 
 const ctx = canvas.getContext('2d');
 
@@ -15,26 +15,28 @@ console.log(myCube.drawLines);
 
 const myMatrix = FOUR.createRotationMatrix(0.01);
 
-let angle = Math.PI/2;
+let angle = 0;
 
-const COS = Math.cos(angle);
-const SIN = Math.sin(angle);
+let COS = Math.cos(angle);
+let SIN = Math.sin(angle);
 
-const rMatrix = [new Vector(COS,0,0,-SIN),
+let rMatrix = [new Vector(COS,0,0,-SIN),
                  new Vector(0,1,0,0),
                  new Vector(0,0,1,0),
                  new Vector(SIN,0,0,COS)];
 
-const rInverse = [new Vector(COS,0,0,SIN),
+let rInverse = [new Vector(COS,0,0,SIN),
                  new Vector(0,1,0,0),
                  new Vector(0,0,1,0),
                  new Vector(-SIN,0,0,COS)];
+
+
 
 setInterval(function () {
     FOUR.cubeRotate(myCube,rInverse);
     FOUR.cubeRotate(myCube,myMatrix);
     FOUR.cubeRotate(myCube,rMatrix);
     //FOUR.cubeToFlatProjection(myCube,3,2);
-    FOUR.cubeToTwo(myCube,3,2,1,0.5);
+    FOUR.cubeToTwo(myCube,3,2.5,2,1);
     FOUR.drawCube(ctx,canvas,myCube);
-},6);
+},16);

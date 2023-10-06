@@ -139,7 +139,7 @@ FOUR.drawCube = function (ctx,canvas,cube) {
     for (let link of cube.drawLines) {
         const p1 = cube.twoDMap[link[0]];
         const p2 = cube.twoDMap[link[1]];
-        drawLine(ctx,p1[0]*100+250,p1[1]*100+250,p2[0]*100+250,p2[1]*100+250);
+        drawLine(ctx,p1[0]*1000+350,p1[1]*1000+350,p2[0]*1000+350,p2[1]*1000+350);
     }
 }
 
