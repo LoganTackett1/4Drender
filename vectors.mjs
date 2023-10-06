@@ -32,7 +32,7 @@ class Vector {
         if (vector.dim !== this.dim) {
             throw new Error("Cannot sum vectors of different dimension.");
         } else {
-            result = 0;
+            let result = 0;
             for (let i = 0; i < this.dim; i++) {
                 result += this[`x${i}`]*vector[`x${i}`];
             }

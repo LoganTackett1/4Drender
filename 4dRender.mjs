@@ -86,7 +86,11 @@ FOUR.rotatePoint = function (point,matrix) {
 FOUR.cubeRotate = function (cube,matrix) {
     for (let point of cube.points) {
         point.subtract(cube.center);
-        this.rotatePoint(point,matrix);
+        const newPoint = this.rotatePoint(point,matrix);
+        point.x0 = newPoint.x0;
+        point.x1 = newPoint.x1;
+        point.x2 = newPoint.x2;
+        point.x3 = newPoint.x3;
         point.add(cube.center);
     }
 }
@@ -112,21 +116,30 @@ FOUR.cubeToTwo = function (cube,wc,wv,zc,zv) {
     }
 }
 
-FOUR.drawLine = function (ctx, x1, y1, x2,y2, stroke = 'black', width = 3) {
+FOUR.cubeToFlatProjection = function (cube,wc,wv) {
+    for (let i = 0; i < cube.points.length; i++) {
+        const two = this.projectToThree(cube.points[i],wc,wv);
+        cube.twoDMap[i][0] = two.x0;
+        cube.twoDMap[i][1] = two.x1;
+    }
+}
+
+const drawLine = function (ctx, x1, y1, x2,y2) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
-    ctx.strokeStyle = stroke;
-    ctx.lineWidth = width;
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.closePath();
 }
 
 FOUR.drawCube = function (ctx,canvas,cube) {
-    //ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     for (let link of cube.drawLines) {
         const p1 = cube.twoDMap[link[0]];
         const p2 = cube.twoDMap[link[1]];
-        this.drawLine(ctx,p1.x0*50+250,p1.x1*50+250,p2.x0*50+250,p2.x1*50+250);
+        drawLine(ctx,p1[0]*100+250,p1[1]*100+250,p2[0]*100+250,p2[1]*100+250);
     }
 }
 
