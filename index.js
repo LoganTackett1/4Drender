@@ -9,8 +9,8 @@ canvas.height = 700;
 
 const ctx = canvas.getContext('2d');
 
-//const myCube = FOUR.create4DCube();
-const myCube = FOUR.create4DTetrahedron();
+const myCube = FOUR.create4DCube();
+//const myCube = FOUR.create4DTetrahedron();
 
 console.log(myCube.twoDMap);
 console.log(myCube.drawLines);

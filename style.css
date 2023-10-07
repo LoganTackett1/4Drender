@@ -9,4 +9,9 @@ body {
     display: grid;
     align-items: center;
     justify-items: center;
+    background: white;
+}
+
+canvas {
+    opacity: 1;
 }

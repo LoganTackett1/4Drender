@@ -176,8 +176,8 @@ FOUR.cubeToFlatProjection = function (cube,wc,wv) {
         cube.twoDMap[i][1] = two.x1;
     }
 }
-
-const drawLine = function (ctx, x1, y1, x2,y2) {
+/*
+const drawLine = function (ctx, x1, y1, z1, x2, y2, z2, n) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
@@ -186,13 +186,31 @@ const drawLine = function (ctx, x1, y1, x2,y2) {
     ctx.stroke();
     ctx.closePath();
 }
+*/
+const drawLine = function (ctx, x1, y1, z1, x2, y2, z2, n) {
+    const deltaX = (x2-x1)/n;
+    const deltaY = (y2-y1)/n;
+    const initThick = 5+(3*((z1-2)/4));
+    const deltaThick = (5+(3*((z2-2)/4))-initThick)/n;
+    for (let i = 0; i < n; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x1+(i*deltaX), y1+(i*deltaY));
+        ctx.lineTo(x1+((i+1)*deltaX), y1+((i+1)*deltaY));
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = initThick+(i*deltaThick);
+        ctx.stroke();
+        ctx.closePath();
+    }
+}
 
 FOUR.drawCube = function (ctx,canvas,cube) {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     for (let link of cube.drawLines) {
         const p1 = cube.twoDMap[link[0]];
+        const p1Z = cube.points[link[0]][`x2`];
         const p2 = cube.twoDMap[link[1]];
-        drawLine(ctx,p1[0]*1000+350,p1[1]*1000+350,p2[0]*1000+350,p2[1]*1000+350);
+        const p2Z = cube.points[link[1]][`x2`];
+        drawLine(ctx,p1[0]*1000+350,p1[1]*1000+350,p1Z,p2[0]*1000+350,p2[1]*1000+350,p2Z,5);
     }
 }
 
