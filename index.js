@@ -1,5 +1,6 @@
 import FOUR from "./4dRender.mjs";
-import Vector from "./vectors.mjs";
+import { Vector } from "./vectors.mjs";
+import { Matrix } from "./vectors.mjs";
 
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
@@ -13,30 +14,30 @@ const myCube = FOUR.create4DCube();
 console.log(myCube.twoDMap);
 console.log(myCube.drawLines);
 
-const myMatrix = FOUR.createRotationMatrix(0.01);
+const myMatrix = FOUR.createRotationMatrix(0.005);
 
-let angle = 0;
+
+//angle pi/2 for tesseract!
+let angle = Math.PI/2;
 
 let COS = Math.cos(angle);
 let SIN = Math.sin(angle);
 
-let rMatrix = [new Vector(COS,0,0,-SIN),
-                 new Vector(0,1,0,0),
-                 new Vector(0,0,1,0),
-                 new Vector(SIN,0,0,COS)];
+let rMatrix = new Matrix(...[new Vector(COS,0,0,-SIN),
+                            new Vector(0,1,0,0),
+                            new Vector(0,0,1,0),
+                            new Vector(SIN,0,0,COS)]);
 
-let rInverse = [new Vector(COS,0,0,SIN),
-                 new Vector(0,1,0,0),
-                 new Vector(0,0,1,0),
-                 new Vector(-SIN,0,0,COS)];
+let rInverse = new Matrix(...[new Vector(COS,0,0,SIN),
+                            new Vector(0,1,0,0),
+                            new Vector(0,0,1,0),
+                            new Vector(-SIN,0,0,COS)]);
 
+const totalMatrix = (rInverse.leftMultBy(myMatrix)).leftMultBy(rMatrix);
 
 
 setInterval(function () {
-    FOUR.cubeRotate(myCube,rInverse);
-    FOUR.cubeRotate(myCube,myMatrix);
-    FOUR.cubeRotate(myCube,rMatrix);
-    //FOUR.cubeToFlatProjection(myCube,3,2);
+    FOUR.cubeRotate(myCube,totalMatrix);
     FOUR.cubeToTwo(myCube,3,2.5,2,1);
     FOUR.drawCube(ctx,canvas,myCube);
 },16);

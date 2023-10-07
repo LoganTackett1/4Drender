@@ -1,4 +1,4 @@
-class Vector {
+export class Vector {
     constructor (...args) {
         for (let i = 0; i < args.length; i++) {
             this[`x${i}`] = args[i];
@@ -68,4 +68,37 @@ class Vector {
     }
 }
 
-export default Vector;
+export class Matrix {
+    constructor (...vects) {
+        this.array = [];
+        for (let i = 0; i < vects.length; i++) {
+            this.array.push(vects[i]);
+        }
+        this.rows = vects.length;
+        this.cols = vects[0].dim;
+    }
+    transpose () {
+        const vectors = [];
+        for (let i = 0; i < this.cols; i++) {
+            const arr = [];
+            for (let j = 0; j < this.rows; j++) {
+                arr.push(this.array[j][`x${i}`]);
+            }
+            vectors.push(new Vector(...arr));
+        }
+        return new Matrix(...vectors);
+    }
+    leftMultBy (leftMatrix) {
+        const transposed = this.transpose();
+        const vectors = [];
+        for (let i = 0; i < leftMatrix.array.length; i++) {
+            const arr = [];
+            for (let j = 0; j < transposed.array.length; j++) {
+                arr.push(leftMatrix.array[i].dotProduct(transposed.array[j]));
+            }
+            vectors.push(new Vector(...arr));
+        }
+        return new Matrix(...vectors);
+    }
+}
+

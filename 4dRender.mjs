@@ -1,4 +1,5 @@
-import Vector from "./vectors.mjs";
+import { Vector } from "./vectors.mjs";
+import { Matrix } from "./vectors.mjs";
 
 const FOUR = {};
 
@@ -72,12 +73,12 @@ FOUR.createRotationMatrix = function (angle) {
     arr.push(new Vector(0,0,cos,-sin));
     arr.push(new Vector(0,0,sin,cos));
 
-    return arr;
+    return new Matrix(...arr);
 }
 
 FOUR.rotatePoint = function (point,matrix) {
     const arr = [];
-    for (let vect of matrix) {
+    for (let vect of matrix.array) {
         arr.push(vect.dotProduct(point));
     }
     return new Vector(...arr);
