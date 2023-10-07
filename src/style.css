@@ -8,11 +8,11 @@ body {
     height: 100vh;
     display: grid;
     justify-items: center;
+    align-items: center;
     background: white;
 }
 
 canvas {
     opacity: 1;
     position: fixed;
-    align-self: top;
 }
