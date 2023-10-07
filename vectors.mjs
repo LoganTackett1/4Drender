@@ -66,6 +66,10 @@ export class Vector {
             return result;
         }
     }
+    extendDim (val) {
+        this.dim += 1;
+        this[`x${this.dim-1}`] = val;
+    }
 }
 
 export class Matrix {

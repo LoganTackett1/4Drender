@@ -57,6 +57,58 @@ FOUR.create4DCube = function () {
     return cube;
 }
 
+FOUR.create4DTetrahedron = function () {
+
+    const cube = {};
+
+    cube.points = [new Vector(-1.5),new Vector(1.5)];
+
+    let currDim = 1;
+    for (let i = 2; i <=4; i++) {
+        let sum = 0;
+        for (let j = 0; j < currDim; j++) {
+            sum += (cube.points[0][`x${j}`])**2;
+        }
+        const xNew = Math.sqrt(9-sum);
+        for (let point of cube.points) {
+            point.extendDim(0);
+        }
+        currDim += 1;
+        const inpArr = [];
+        for (let j = 0; j < currDim-1; j++) {
+            inpArr.push(0);
+        }
+        inpArr.push(xNew);
+        cube.points.push(new Vector(...inpArr));
+
+        const dupe = new Vector(...cube.points[0].toArray());
+        for (let j = 1; j < cube.points.length; j++) {
+            dupe.add(cube.points[j]);
+        }
+        dupe.scale(-1/cube.points.length);
+        for (let point of cube.points) {
+            point.add(dupe);
+        }
+    }
+
+    cube.drawLines = [];
+
+    for (let i = 0; i < cube.points.length; i++) {
+        for (let j = i+1; j < cube.points.length; j++) {
+                    cube.drawLines.push([i,j]);
+            }
+        }
+
+    cube.center = new Vector(0,0,0,0);
+
+    cube.twoDMap = [[0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0],
+                    [0,0],[0,0],[0,0],[0,0]];
+
+    return cube;
+}
+
 FOUR.cubeShift = function (cube,vect) {
     for (let point of cube.points) {
         point.add(vect);
