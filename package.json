@@ -1,7 +1,6 @@
 {
   "name": "4drender",
   "version": "1.0.0",
-  "type":"module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
 }
